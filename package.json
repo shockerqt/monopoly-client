@@ -1,0 +1,46 @@
+{
+  "name": "monopoly-client",
+  "version": "0.0.1",
+  "description": "Monopoly with waifus client",
+  "main": "index.js",
+  "scripts": {
+    "build": "NODE_ENV=production webpack --config webpack.production.js",
+    "start": "webpack serve --open --config webpack.development.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shockerqt/monopoly-client.git"
+  },
+  "author": "shocker",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shockerqt/monopoly-client/issues"
+  },
+  "homepage": "https://github.com/shockerqt/monopoly-client#readme",
+  "devDependencies": {
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@types/react-router-dom": "latest",
+    "@typescript-eslint/eslint-plugin": "latest",
+    "@typescript-eslint/parser": "latest",
+    "css-loader": "latest",
+    "eslint": "latest",
+    "html-webpack-plugin": "latest",
+    "node-sass": "latest",
+    "sass": "latest",
+    "sass-loader": "latest",
+    "style-loader": "latest",
+    "ts-loader": "latest",
+    "typescript": "latest",
+    "webpack": "latest",
+    "webpack-cli": "latest",
+    "webpack-dev-server": "latest"
+  },
+  "dependencies": {
+    "react": "latest",
+    "react-dom": "latest",
+    "react-router-dom": "latest",
+    "socket.io-client": "^4.4.1",
+    "web-vitals": "latest"
+  }
+}
