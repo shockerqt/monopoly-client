@@ -1,21 +1,46 @@
-import { useEffect, useRef } from 'react';
-import Sprite from '../components/renderer/Sprite';
+import { lazy, Suspense, useEffect, useState } from 'react';
+import Reconnecting from '../components/Reconnecting';
+import { useMonopolyData } from '../hooks/useMonopolyData';
+import { useSocket } from '../hooks/useSocket';
+
+export type Views = 'main' | 'multi' | 'lobby' | 'game';
+
+const MainView = lazy(() => import(/* webpackChunkName: "mainView" */ '../views/MainView/MainView'));
+const MultiView = lazy(() => import(/* webpackChunkName: "mainView" */ '../views/MultiView/MultiView'));
+const GameView = lazy(() => import(/* webpackChunkName: "game" */ '../views/GameView/GameView'));
+
 
 const Monopoly = () => {
-  const canvasRef: React.MutableRefObject<HTMLCanvasElement | null> = useRef(null);
+  const socket = useSocket();
+  const data = useMonopolyData(socket);
+  const [view, setView] = useState<Views>('main');
 
   useEffect(() => {
-    const context = canvasRef.current?.getContext('2d');
-    if (context) {
-      context.fillStyle = '#000000';
-      context.fillRect(0, 0, context.canvas.width, context.canvas.height);
-      const room = new Sprite(context, { x: 50, y: 50 });
-      room.draw();
-    }
-  }, []);
+    if (!data.lobbyData && view !== 'main') setView('multi');
+    if (data.lobbyData?.state === 'creating') setView('lobby');
+    if (data.lobbyData?.state === 'ingame') setView('game');
+  }, [data.lobbyData]);
 
   return (
-    <canvas ref={canvasRef} width={900} height={600}></canvas>
+    <>
+      {
+        data.localData.online ?
+          <>
+            {view === 'main' &&
+              <Suspense fallback={<>...</>}>
+                <MainView setView={setView} />
+              </Suspense>}
+            {view === 'multi' &&
+              <Suspense fallback={<>...</>}>
+                <MultiView setView={setView} socket={socket} data={data} />
+              </Suspense>}
+            {view === 'game' &&
+              <Suspense fallback={<>...</>}>
+                <GameView socket={socket} data={data} />
+              </Suspense>}
+          </> : <Reconnecting />
+      }
+    </>
   );
 };
 

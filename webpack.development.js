@@ -9,6 +9,7 @@ module.exports = {
     port: 3000,
     static: './dist',
     historyApiFallback: true,
+    host: '0.0.0.0',
     client: {
       progress: true,
       overlay: {

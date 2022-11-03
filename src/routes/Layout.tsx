@@ -5,11 +5,9 @@ import './Layout.scss';
 const Layout = () => {
 
   return (
-    <div className="layout">
-
+    <>
       <Outlet />
-
-    </div>
+    </>
   );
 };
 

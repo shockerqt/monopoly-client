@@ -1,0 +1,57 @@
+@font-face {
+  font-family: 'AGENCYR';
+  src: url('../../static/fonts/AGENCYR.TTF');
+}
+
+.main-view {
+  background-image: url('../../static/bg.jpg');
+  font-family: 'AGENCYR';
+  height: 100vh;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 200px 1fr;
+  grid-template-areas:
+    'header header'
+    'left right';
+}
+
+.main-buttons {
+  grid-area: right;
+  display: grid;
+  justify-items: center;
+  align-items: start;
+
+  button {
+    position: relative;
+    text-transform: uppercase;
+    background-color: #b951b2cc;
+    border: none;
+    width: 300px;
+    padding: 12px;
+    font-size: 64px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+
+    span {
+      position: relative;
+      z-index: 1;
+    }
+
+    &::before {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+      width: 12px;
+      content: '';
+      background-color: #f851ed;
+      transition: ease-in-out 0.2s;
+    }
+
+    &:hover::before {
+      width: 100%;
+    }
+  }
+}

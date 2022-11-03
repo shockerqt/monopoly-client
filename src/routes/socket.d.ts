@@ -3,28 +3,50 @@ interface UserData {
   nick: string;
 }
 
-interface RoomData {
+interface LobbyData {
   id: number;
   name: string;
-  users: Array<{ id: number, nick: string }>;
+  users: Array<PublicUserData>;
   hasPassword: boolean;
-  roomMasterId: number;
+  masterId: number;
+  state: 'creating' | 'ingame';
 }
 
-interface LobbyData {
-  users: Array<{ id: number, nick: string }>;
-  rooms: Array<RoomData>;
+interface PublicUserData {
+  id: number;
+  nick: string;
+}
+
+interface PublicLobbyData {
+  id: number;
+  name: string;
+  users: Array<PublicUserData>;
+  hasPassword: boolean;
+  masterId: number;
+  state: 'creating' | 'ingame';
+}
+
+interface ServerData {
+  users: Array<PublicUserData>;
+  lobbies: Array<PublicLobbyData>;
+}
+
+interface LocalData {
+  online: boolean;
 }
 
 interface ServerToClientEvents {
-  'fetch lobby': (lobbyData: LobbyData) => void;
-  'fetch userdata': (userData: UserData) => void;
+  'fetch user': (userData: UserData) => void;
+  'fetch server': (serverData: ServerData) => void;
+  'fetch lobby': (lobbyData: LobbyData | undefined) => void;
 }
 
 interface ClientToServerEvents {
-  'create room': (name: string, password: string) => void;
-  'change nick': (nick: string, ack: (response) => void) => void;
-  'join room': (roomId: number, password: string) => void;
+  'create lobby': (name: string, password: string) => void;
+  'change nick': (nick: string) => void;
+  'join lobby': (roomId: number, password: string) => void;
+  'start game': () => void;
+  'leave lobby': () => void;
 }
 
 interface InterServerEvents {
